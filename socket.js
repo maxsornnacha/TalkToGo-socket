@@ -46,6 +46,12 @@ io.on('connection', (socket) => {
 })
 
 
+  //FriendShip
+  socket.on('requestFriendship',(requestData)=>{
+    console.log(requestData)
+    io.emit('requestFriendship',requestData)
+  })
+
 
 
     socket.on('disconnect', () => {
