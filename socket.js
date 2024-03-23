@@ -35,21 +35,23 @@ io.on('connection', (socket) => {
 
     //Upload Comment 
     socket.on('commentData',(currentDate,currentTime,accountImage,firstname,lastname,accountID,postID,commentInput,commentImage)=>{
-      console.log(currentDate,currentTime,accountImage,firstname,lastname,accountID,postID,commentInput,commentImage)
+      //console.log(currentDate,currentTime,accountImage,firstname,lastname,accountID,postID,commentInput,commentImage)
       io.emit('commentData',currentDate,currentTime,accountImage,firstname,lastname,accountID,postID,commentInput,commentImage)
  })
 
   //Upload Reply
   socket.on('replyData',(index,currentDate,currentTime,accountImage,firstname,lastname,accountID,postID,commentID,replyInput,replyImage)=>{
-    console.log(index,currentDate,currentTime,accountImage,firstname,lastname,accountID,postID,commentID,replyInput,replyImage)
+    //console.log(index,currentDate,currentTime,accountImage,firstname,lastname,accountID,postID,commentID,replyInput,replyImage)
     io.emit('replyData',index,currentDate,currentTime,accountImage,firstname,lastname,accountID,postID,commentID,replyInput,replyImage)
 })
 
   //FriendShip เปลี่ยนค่าสถานะของปุ่มเพิ่มเพื่อน
-  socket.on('requestFriendship',async ({requestData})=>{
-    const roomID = createRoomID(requestData.requester,requestData.recipient);
-    await socket.join(roomID);
-    io.to(roomID).emit('requestFriendship',{requestData})
+  socket.on('requestFriendship',async ({roomIDGet,requester,recipient,status})=>{
+    //console.log(requester)
+    //console.log(recipient)
+    //console.log(status)
+    //console.log(roomIDGet)
+    io.emit('requestFriendship',{roomIDGet,requester,recipient,status})
   })
 
   //FriendRequestHandle จัดการกับการยอมรับการเป็นเพื่อน หรือไม่
@@ -65,11 +67,12 @@ io.on('connection', (socket) => {
        }
 
   //start to create a room
-  socket.on('joinRoom',({senderID, getterID}) =>{
+  socket.on('joinRoom',async ({senderID, getterID}) =>{
     const roomID = createRoomID(senderID, getterID);
-    socket.join(roomID);
+    await socket.join(roomID);
     socket.emit('joinRoom',{roomID})
   })
+
 
   //ทำการส่ง massage แค่ 2 คนที่ได้ระบุไว้
   socket.on('sendMsg', ({ roomIDGet, message }) => {
@@ -79,11 +82,24 @@ io.on('connection', (socket) => {
   //ทำการอัพเดตแชท เมื่อมีการ อ่านข้อความแล้ว จากฝ้่งรับข้อความ
   socket.on('updateMsg',({roomIDGet,messagesAll})=>{
     if(messagesAll){
-      console.log('dataGet :',messagesAll[messagesAll.length-1])
+      //console.log('dataGet :',messagesAll[messagesAll.length-1])
+      //console.log('roomID',roomIDGet)
     }
     io.to(roomIDGet).emit('updateMsg',{messagesAll})
   })
 
+  //ทำการอัพเดต การส่งคำขอ เข้าร่วมห้องพูดคุย
+    socket.on('roomRequest',({id, requestStatus})=>{
+      //console.log(id)
+     // console.log(requestStatus)
+      io.emit('roomRequest',{id,requestStatus})
+    })
+
+  //ทำการอัพเดต ข้อความทั้งหมด 
+    socket.on('allMessages',({data , userID , newUnreadMessages})=>{
+      console.log(newUnreadMessages)
+      io.emit('allMessages',{data,userID,newUnreadMessages})
+    })
  
     socket.on('disconnect', () => {
       //console.log(`User ID:${socket.id} disconnected from the socket`);
