@@ -132,7 +132,7 @@ io.on('connection', (socket) => {
 
 const PORT = process.env.PORT || 8080;
 
-httpServer.listen(process.env.PORT,()=>{
-    console.log(`port of socket running on ${process.env.PORT}`)
+httpServer.listen(PORT,()=>{
+    console.log(`port of socket running on ${PORT}`)
 })
 
