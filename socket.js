@@ -199,9 +199,13 @@ io.on('connection', (socket) => {
   })
 
   //Sending SDP answer with Ice candidates from a non initiator to an initiator or starter
-  socket.on('answer-got-send', ({answer, from, userNO,  to, roomEntering , roomUpdated})=>{
-    io.emit('initpeer-accept-answer',{answer, from, userNO,  to, roomEntering , roomUpdated})
+  socket.on('answer-got-send', ({initNO , answer, from, userNO,  to, roomEntering , roomUpdated})=>{
+    io.emit('initpeer-accept-answer',{initNO , answer, from, userNO,  to, roomEntering , roomUpdated})
  });
+
+ socket.on('non-init-peer-stream-to-init',({initNO , senderID, to})=>{
+    io.emit('non-init-peer-stream-to-init',{initNO , senderID, to})
+ })
 
  //Optional: in case there is voice detection to know when if users are speaking
  socket.on('voice-detected', ({userNO , room})=>{
