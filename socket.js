@@ -46,8 +46,8 @@ io.on('connection', (socket) => {
  });
 
   //Uploading Reply realtime
-  socket.on('replyData',(index,currentDate,currentTime,accountImage,firstname,lastname,accountID,postID,commentID,replyInput,replyImage)=>{
-    io.emit('replyData',index,currentDate,currentTime,accountImage,firstname,lastname,accountID,postID,commentID,replyInput,replyImage)
+  socket.on('replyData',({postUpdated})=>{
+    io.emit('replyData',{postUpdated})
 });
 
   //FriendShip request realtime
