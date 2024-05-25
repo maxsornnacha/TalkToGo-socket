@@ -194,8 +194,8 @@ io.on('connection', (socket) => {
   });
 
   //If offer not sent
-  socket.on('offer-not-got-send',({roomUpdated}) =>{
-    io.emit('offer-not-got-send',{roomUpdated})
+  socket.on('offer-not-got-send',({roomUpdated , senderID}) =>{
+    io.emit('offer-not-got-send',{roomUpdated , senderID})
   })
 
   //Sending SDP answer with Ice candidates from a non initiator to an initiator or starter
