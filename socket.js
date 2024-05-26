@@ -228,6 +228,12 @@ socket.on('init-peers-connected-to-me-disconnect',({from , userNO}) =>{
   io.emit('init-peers-connected-to-me-disconnect',{from , userNO})
 });
 
+
+//Notify Navbar
+socket.on('notify-navbar',({getterID , type})=>{
+  io.emit('notify-navbar',{getterID , type})
+})
+
 });
 
 const PORT = process.env.PORT || 8080;
