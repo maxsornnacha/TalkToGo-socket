@@ -224,8 +224,8 @@ socket.on('room-status-update-after-online-offline',({roomID, roomData})=>{
 });
 
 //Disconnect from the peers that were signaled or connected
-socket.on('init-non-init-peers-connected-to-me-disconnect',({senderID , channelID}) =>{
-  io.emit('init-non-init-peers-connected-to-me-disconnect',{senderID  ,channelID})
+socket.on('init-non-init-peers-connected-to-me-disconnect',({senderID , channelID , senderNO}) =>{
+  io.emit('init-non-init-peers-connected-to-me-disconnect',{senderID  ,channelID , senderNO})
 });
 
 
